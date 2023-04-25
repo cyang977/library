@@ -13,10 +13,15 @@ body {
 
 
 input {
-    border-radius: 7px;
+    border-radius: 5px;
     border: 1px solid gray;
     margin-right: 20px;
 }
+
+input:valid {
+    border: 1px solid lightgreen;
+}
+
 
 .outer {
     height: 300px;
@@ -53,6 +58,7 @@ input {
 
 .new-book-btn:hover {
     background-color: var(--custom-button-color, orange);
+    cursor: pointer;
 }
 
 .outer-bottom {
