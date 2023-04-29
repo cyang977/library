@@ -1,22 +1,34 @@
+// Used to contain book object and stores them to an array
 let myLibrary = [];
 
+// Creates a new Div on click event
 let newDiv;
+// Holds the content of the book object into a paragraph
 let divContent; 
+// Is the content of the book object
 let emptyString;
+// An object of book object when click event is triggered, this is added to myLibrary array
 let newBook;
+// A query selector that targets 'delete' buttons
 let deleteBtn; 
+// An event when deleteBtn is clicked
 let pressDelete;
 
-// what is this used for? 
+// Used to store button position relative to its div position, when pressed will delete div in coressponding position
 let btnArray = [];
 // class name of button
 let btnClassName;
 // button element
 let btnElement;
+// Selecting user input id of 'title'
 const titleBook = document.querySelector('#title');
+// Selecting user input id of 'author'
 const authorName = document.querySelector('#author');
+// Selecting user input id of 'year'
 const yearPublished = document.querySelector('#year');
+// Selecting user input id of 'pages'
 const maxPages = document.querySelector('#pages');
+// Selecting div grid where the books will be displayed
 const booksGrid = document.querySelector('.books-grid');
 
 // Adds book to the library array when clicked
