@@ -6,8 +6,12 @@ let emptyString;
 let newBook;
 let deleteBtn; 
 let pressDelete;
+
+// what is this used for? 
 let btnArray = [];
+// class name of button
 let btnClassName;
+// button element
 let btnElement;
 const titleBook = document.querySelector('#title');
 const authorName = document.querySelector('#author');
@@ -73,28 +77,52 @@ function createBookView() {
         deleteBtn.classList.add(`${index}`);
         addBtnToArray(index);
         console.log(btnArray);
-        deleteBtn.innerHTML = 'Delete';
+        deleteBtn.textContent = 'Delete';
         // Need to figure out a way to delete certain books
         newDiv.appendChild(deleteBtn);
         divContent.classList.add('content');
         newDiv.classList.add('view-books');
+        // delete this when need to fix 
+        pressDelete = document.querySelectorAll('.deleteBtn');
+        console.log(pressDelete);
+        pressDelete.forEach(btn => btn.addEventListener('click', (e) => {
+            console.log(e);
+            btnElement = e.target;
+            // Accessing target's className
+            btnClassName = btnElement.className;
+            console.log(btnClassName);
+            console.log(typeof btnClassName);
+            deleteBook(btnClassName); 
+    }));
     }
 }
 
 // Deletes books from library once delete button is clicked
 function deleteBook(position) {
     if (/0/.test(position)) {
+        // Deletes button in array at position 0 corresponding to div at index 0
         btnArray.splice(0, 1);
         myLibrary.splice(0, 1);
+        removeAllChildNodes(booksGrid);
+        createBookView();
     } else if (/1/.test(position)) {
+        // Deletes button in array at position 1 corresponding to div at index 1
         btnArray.splice(1, 1);
         myLibrary.splice(1, 1);
+        removeAllChildNodes(booksGrid);
+        createBookView();
     } else if (/2/.test(position)) {
+        // Deletes button in array at position 2 corresponding to div at index 2
         btnArray.splice(2, 1);
         myLibrary.splice(2, 1);
+        removeAllChildNodes(booksGrid);
+        createBookView();
     } else {
-        btnArray.splice(3, 1);
-        myLibrary.splice(3, 1);
+        // Deletes button in array at position 3 corresponding to div at index 3
+        btnArray.splice((btnArray.length - 1), 1);
+        myLibrary.splice((myLibrary.length - 1), 1);
+        removeAllChildNodes(booksGrid);
+        createBookView();
     }
     console.log(btnArray);
     console.log(myLibrary);
@@ -113,48 +141,23 @@ viewBook.addEventListener('click', () => {
     // clear btnArray so no duplicate values
     btnArray.length = 0;
     // create book view function goes here
-    for (const [index, i] of myLibrary.entries()){
-        console.log(index);
-        console.log(i);
-        // Creating new div element in the DOM 
-        newDiv = document.createElement('div');
-        // Appending newDiv to be the last child element in the booksGrid parent container
-        booksGrid.appendChild(newDiv);
-        // Creating paragraph element inside of newDiv and appending it to it
-        divContent = document.createElement('p');
-        newDiv.appendChild(divContent);
-        // Setting text inside paragraph element to be of emptyString
-        emptyString = `Title: ${i.author}<br> Author: ${i.title}<br>
-        Year: ${i.year}<br> Pages: ${i.pages}`;
-        divContent.innerHTML = emptyString;
-        // Creating deleteBtn element and appending it to newDiv 
-        deleteBtn = document.createElement('button');
-        // Adding a style to the element using html class attribute
-        deleteBtn.classList.add('deleteBtn');
-        deleteBtn.classList.add(`${index}`);
-        addBtnToArray(index);
-        console.log(btnArray);
-        deleteBtn.innerHTML = 'Delete';
-        // Need to figure out a way to delete certain books
-        newDiv.appendChild(deleteBtn);
-        divContent.classList.add('content');
-        newDiv.classList.add('view-books');
-    }
-    pressDelete = document.querySelectorAll('.deleteBtn');
-    console.log(pressDelete);
-    pressDelete.forEach(btn => btn.addEventListener('click', (e) => {
-        console.log(e);
-        btnElement = e.target;
-        // Accessing target's className
-        btnClassName = btnElement.className;
-        console.log(btnClassName);
-        console.log(typeof btnClassName);
-        deleteBook(btnClassName); 
-    }));
+    createBookView();
+    // pressDelete goes here
+    /* 
+    working now when moved pressDelete to createBookView(), 
+    reason so is it needs to exist outside of the click event of 
+    viewBook that way we can delete multiple times without having 
+    to click view book button for each time we delete
+    */
 })
+
 
 /* 
 Need to find a way to delete and update the Dom right
 after deleting book so that we wont have to click 'view book'
 again to see that the books were deleted. 
+*/
+
+/*
+Only allowed to delete once. Need to find a way to delete multiple times.
 */
