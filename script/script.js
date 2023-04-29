@@ -1,6 +1,5 @@
 // Used to contain book object and stores them to an array
 let myLibrary = [];
-
 // Creates a new Div on click event
 let newDiv;
 // Holds the content of the book object into a paragraph
@@ -13,13 +12,14 @@ let newBook;
 let deleteBtn; 
 // An event when deleteBtn is clicked
 let pressDelete;
-
 // Used to store button position relative to its div position, when pressed will delete div in coressponding position
 let btnArray = [];
 // class name of button
 let btnClassName;
 // button element
 let btnElement;
+
+
 // Selecting user input id of 'title'
 const titleBook = document.querySelector('#title');
 // Selecting user input id of 'author'
@@ -30,6 +30,7 @@ const yearPublished = document.querySelector('#year');
 const maxPages = document.querySelector('#pages');
 // Selecting div grid where the books will be displayed
 const booksGrid = document.querySelector('.books-grid');
+
 
 // Adds book to the library array when clicked
 const addBook = document.querySelector('.new-book-btn');
@@ -45,6 +46,36 @@ addBook.addEventListener('click', () => {
     addBookToLibrary(newBook); 
 })
 
+
+// Action when 'view book' is clicked
+const viewBook = document.querySelector('.view-btn');
+viewBook.addEventListener('click', () => {
+    // Removes all child nodes when clicking viewbooks so that it doesnt duplicate old nodes
+    removeAllChildNodes(booksGrid);
+    // clear btnArray so no duplicate values
+    btnArray.length = 0;
+    // create book view function goes here
+    createBookView();
+    // pressDelete goes here
+    /* 
+    working now when moved pressDelete to createBookView(), 
+    reason so is it needs to exist outside of the click event of 
+    viewBook that way we can delete multiple times without having 
+    to click view book button for each time we delete
+    */
+})
+
+
+/* 
+Need to find a way to delete and update the Dom right
+after deleting book so that we wont have to click 'view book'
+again to see that the books were deleted. 
+*/
+
+/*
+Only allowed to delete once. Need to find a way to delete multiple times.
+*/
+
 // Object constructor for books
 function Book(title, author, year, pages) {
     this.author = author;
@@ -53,11 +84,13 @@ function Book(title, author, year, pages) {
     this.pages = pages;
 }
 
+
 // Adds books to the library array by .push() object to it
 function addBookToLibrary(book) {
     myLibrary.push(book);
     console.log(myLibrary);
 }
+
 
 // Removes Child Nodes when refresh viewing book.
 function removeAllChildNodes(parent) {
@@ -65,6 +98,7 @@ function removeAllChildNodes(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
+
 
 function createBookView() {
     // For-of loop to create new nodes 
@@ -94,8 +128,8 @@ function createBookView() {
         newDiv.appendChild(deleteBtn);
         divContent.classList.add('content');
         newDiv.classList.add('view-books');
-        // delete this when need to fix 
-        pressDelete = document.querySelectorAll('.deleteBtn');
+    }
+    pressDelete = document.querySelectorAll('.deleteBtn');
         console.log(pressDelete);
         pressDelete.forEach(btn => btn.addEventListener('click', (e) => {
             console.log(e);
@@ -106,8 +140,8 @@ function createBookView() {
             console.log(typeof btnClassName);
             deleteBook(btnClassName); 
     }));
-    }
 }
+
 
 // Deletes books from library once delete button is clicked
 function deleteBook(position) {
@@ -140,28 +174,13 @@ function deleteBook(position) {
     console.log(myLibrary);
 }
 
+
 // Need to access class name of element and use it as argument 
 function addBtnToArray(index) {
     btnArray.push(index);
 }
 
-// Action when 'view book' is clicked
-const viewBook = document.querySelector('.view-btn');
-viewBook.addEventListener('click', () => {
-    // Removes all child nodes when clicking viewbooks so that it doesnt duplicate old nodes
-    removeAllChildNodes(booksGrid);
-    // clear btnArray so no duplicate values
-    btnArray.length = 0;
-    // create book view function goes here
-    createBookView();
-    // pressDelete goes here
-    /* 
-    working now when moved pressDelete to createBookView(), 
-    reason so is it needs to exist outside of the click event of 
-    viewBook that way we can delete multiple times without having 
-    to click view book button for each time we delete
-    */
-})
+
 
 
 /* 
